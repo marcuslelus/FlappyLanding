@@ -7,6 +7,7 @@ public class GameFlow : IManager
     #region singleton
     private static GameFlow instance;
     private GameFlow() { }
+    PlayerManager playerManager;
     public static GameFlow Instance
     {
         get
@@ -21,6 +22,7 @@ public class GameFlow : IManager
     #endregion
     public void FirstInitialization()
     {
+        PlayerManager.Instance.FirstInitialization();
     }
     //like start func
     public void SecondInitialization()
@@ -31,5 +33,6 @@ public class GameFlow : IManager
     }
     public void PhysicsRefresh()
     {
+        PlayerManager.Instance.PhysicsRefresh();
     }
 }
