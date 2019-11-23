@@ -30,6 +30,7 @@ public class GameFlow : IManager
     }
     public void Refresh()
     {
+        PlayerManager.Instance.Refresh();
     }
     public void PhysicsRefresh()
     {

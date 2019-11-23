@@ -27,12 +27,14 @@ public class PlayerManager : IManager
 
     public void PhysicsRefresh()
     {
-        player.PhysicsRefresh();
+        if(player.isAlive)
+            player.PhysicsRefresh();
     }
 
     public void Refresh()
     {
-        throw new System.NotImplementedException();
+        if (player.isAlive)
+            player.Refresh();
     }
 
     public void SecondInitialization()
