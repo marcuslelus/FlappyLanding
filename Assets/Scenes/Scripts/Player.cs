@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
 
     public void Refresh()
     {
-        if(transform.position.x >= 18f || transform.position.x <= -18f)
+        if(transform.position.x >= 18f || transform.position.x <= -18f || transform.localPosition.y < -2f)
         {
             GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Explosion"), transform.parent);
             explosion.transform.position = transform.position;
