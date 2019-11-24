@@ -20,9 +20,11 @@ public class GameFlow : IManager
         }
     }
     #endregion
+    public bool isStart = false;
     public void FirstInitialization()
     {
         PlayerManager.Instance.FirstInitialization();
+        GuiManager.Instance.FirstInitialization();
     }
     //like start func
     public void SecondInitialization()
@@ -30,10 +32,17 @@ public class GameFlow : IManager
     }
     public void Refresh()
     {
-        PlayerManager.Instance.Refresh();
+        GuiManager.Instance.Refresh();
+        if (isStart)
+        {
+            PlayerManager.Instance.Refresh();
+        }
     }
     public void PhysicsRefresh()
     {
-        PlayerManager.Instance.PhysicsRefresh();
+        if (isStart)
+        {
+            PlayerManager.Instance.PhysicsRefresh();
+        }
     }
 }

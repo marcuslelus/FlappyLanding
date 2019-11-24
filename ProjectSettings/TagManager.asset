@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Walls
+  - Begin
+  - Quit
+  - Counter
   layers:
   - Default
   - TransparentFX
