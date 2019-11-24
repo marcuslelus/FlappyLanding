@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+public struct Charlotte
+{
+    public short age;
+    public bool ecoute;
+
+};
+
 public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -10,10 +19,15 @@ public class Player : MonoBehaviour
     double vitesseX = 0;
     double vitesseY = 0;
     public bool isAlive = true;
+    uint chiffre = 5;
+    float virgule = 5.6f;
+    double groschiffre = 4.3;
+    bool question = true;
     Vector3 force = Vector3.zero;
+
+
     public void FirstInitialization()
     {
-        
     }
 
     public void PhysicsRefresh()
@@ -26,7 +40,7 @@ public class Player : MonoBehaviour
     {
         if(transform.position.x >= 18f || transform.position.x <= -18f)
         {
-            GameObject explosion = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Explosion"), transform.parent);
+            GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Explosion"), transform.parent);
             explosion.transform.position = transform.position;
             isAlive = false;
             gameObject.SetActive(false);
@@ -45,7 +59,7 @@ public class Player : MonoBehaviour
         this.transform.position += forceCalcul * Time.fixedDeltaTime;
         if (Input.GetKey(KeyCode.Space))
         {
-            force.y += 15;
+            force.y += 90;
             force = transform.TransformDirection(force);
         }
         force.y += (float)-9.32;
@@ -59,9 +73,9 @@ public class Player : MonoBehaviour
     {
         float angle = 0;
         if (Input.GetKey(KeyCode.A))
-            angle = -50;
+            angle = -100;
         else if (Input.GetKey(KeyCode.D))
-            angle = 50;
+            angle = 100;
             transform.localEulerAngles += new Vector3(0, 0, angle * Time.fixedDeltaTime);
     }
 }
