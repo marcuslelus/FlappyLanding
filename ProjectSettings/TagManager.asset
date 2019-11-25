@@ -8,6 +8,7 @@ TagManager:
   - Begin
   - Quit
   - Counter
+  - Win
   layers:
   - Default
   - TransparentFX

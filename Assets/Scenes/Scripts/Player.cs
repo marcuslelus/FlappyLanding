@@ -53,12 +53,15 @@ public class Player : MonoBehaviour
     {
         if(transform.position.x >= 18f || transform.position.x <= -18f || transform.localPosition.y < -2f)
         {
-            Dead();
             isAlive = false;
+        }
+        if (isAlive && transform.localPosition.y > 50)
+        {
+            Win();
         }
         if (!isAlive)
         {
-            die();
+            Dead();
         }
     }
     public void Dead()
@@ -70,6 +73,12 @@ public class Player : MonoBehaviour
         GuiManager.Instance.StartMenu();
         //gameObject.SetActive(false);
 
+    }
+    public void Win()
+    {
+        isAlive = false;
+        //GetComponent<SpriteRenderer>().enabled = false;
+        GuiManager.Instance.StartMenuWin();
     }
     public void SecondInitialization()
     {
@@ -102,7 +111,7 @@ public class Player : MonoBehaviour
             force = transform.TransformDirection(force);
         }
         //Gravité
-        //force.y -= (9.81f * masse);
+        force.y -= (9.81f * masse);
         //friction
         force += vitesse * (-friction);
         //Changer l'acceleration
@@ -139,11 +148,9 @@ public class Player : MonoBehaviour
     {
         transform.localEulerAngles = Vector3.zero;
         transform.localPosition = Vector3.zero;
-        accelerationX = 0;
-        accelerationY = 0;
-        vitesseX = 0;
-        vitesseY = 0;
+        acceleration = Vector3.zero;
+        vitesse = Vector3.zero;
         force = Vector3.zero;
-
-}
+        GetComponent<SpriteRenderer>().enabled = true;
+    }
 }

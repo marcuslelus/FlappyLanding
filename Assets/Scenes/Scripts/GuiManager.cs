@@ -23,6 +23,7 @@ public class GuiManager : IManager
     BeginButton beginButton;
     ExitButton exitButton;
     Text counter;
+    Text win;
     public float timeBeforeStart;
    
     public void FirstInitialization()
@@ -31,7 +32,9 @@ public class GuiManager : IManager
         beginButton = GameObject.FindGameObjectWithTag("Begin").GetComponent<BeginButton>();
         exitButton = GameObject.FindGameObjectWithTag("Quit").GetComponent<ExitButton>();
         counter = GameObject.FindGameObjectWithTag("Counter").GetComponent<Text>();
+        win = GameObject.FindGameObjectWithTag("Win").GetComponent<Text>();
         counter.enabled = false;
+        win.enabled = false;
     }
 
     public void PhysicsRefresh()
@@ -56,13 +59,19 @@ public class GuiManager : IManager
     {
         timeBeforeStart = 3.99f;
         counter.text = "3";
-        PlayerManager.Instance.player.GetComponent<SpriteRenderer>().enabled = true;
-        PlayerManager.Instance.player.transform.localPosition = Vector3.zero;
+        win.enabled = false;
+        //PlayerManager.Instance.player.GetComponent<SpriteRenderer>().enabled = true;
+        //PlayerManager.Instance.player.transform.localPosition = Vector3.zero;
         counter.enabled = true;
         beginButton.gameObject.SetActive(false);
         exitButton.gameObject.SetActive(false);
         setCounter();
         PlayerManager.Instance.player.Reset();
+    }
+    public void StartMenuWin()
+    {
+        win.enabled = true;
+        StartMenu();
     }
     public void StartMenu()
     {
