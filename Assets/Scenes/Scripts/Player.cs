@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
             force = transform.TransformDirection(force);
         }
         //Gravité
-        //force.y -= (9.81f * masse);
+        force.y -= (9.81f * masse);
         //friction
         force += vitesse * (-friction);
         //Changer l'acceleration
