@@ -1,39 +1,52 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-public struct Charlotte
-{
-    public short age;
-    public bool ecoute;
-
-};
-
+[ExecuteInEditMode]
 public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
-    double accelerationX = 0;
-    double accelerationY = 0;
-    double vitesseX = 0;
-    double vitesseY = 0;
+    public GameObject flame;
+    public Vector3 acceleration;
+    public Vector3 vitesse;
+    public Vector3 force;
+    public float masse = 10f;
+    public float friction = 10f;
     public bool isAlive = true;
-    uint chiffre = 5;
-    float virgule = 5.6f;
-    double groschiffre = 4.3;
-    bool question = true;
-    Vector3 force = Vector3.zero;
+    public float vitesseRotation = 100;
 
+    //Points pour collision
+    public Vector3[] points;
 
+    void Awake()
+    {
+        SecondInitialization();
+    }
     public void FirstInitialization()
     {
+        flame.SetActive(false);
+        acceleration = Vector3.zero;
+        vitesse = Vector3.zero;
+        force = Vector3.zero;
+        masse = 50f;
     }
 
     public void PhysicsRefresh()
     {
         rotation();
         accelerationPoint();
+        updatePoints();
+
+    }
+
+    private void updatePoints()
+    {
+        points[0] = new Vector3(transform.position.x - 0.71f * transform.localScale.x, transform.position.y + 0.75f * transform.localScale.y, 0);
+        points[1] = new Vector3(transform.position.x - 0.71f * transform.localScale.x, transform.position.y - 0.6f * transform.localScale.y, 0);
+        points[2] = new Vector3(transform.position.x + 0.71f * transform.localScale.x, transform.position.y - 0.6f * transform.localScale.y, 0);
+        points[3] = new Vector3(transform.position.x + 0.71f * transform.localScale.x, transform.position.y + 0.75f * transform.localScale.y, 0);
+
     }
 
     public void Refresh()
@@ -41,6 +54,11 @@ public class Player : MonoBehaviour
         if(transform.position.x >= 18f || transform.position.x <= -18f || transform.localPosition.y < -2f)
         {
             Dead();
+            isAlive = false;
+        }
+        if (!isAlive)
+        {
+            die();
         }
     }
     public void Dead()
@@ -55,34 +73,67 @@ public class Player : MonoBehaviour
     }
     public void SecondInitialization()
     {
-        throw new System.NotImplementedException();
+        points = new Vector3[4];
+
+        points[0] = new Vector3(transform.position.x - 0.71f * transform.localScale.x, transform.position.y + 0.75f * transform.localScale.y, 0);
+        points[1] = new Vector3(transform.position.x - 0.71f * transform.localScale.x, transform.position.y - 0.6f * transform.localScale.y, 0);
+        points[2] = new Vector3(transform.position.x + 0.71f * transform.localScale.x, transform.position.y - 0.6f * transform.localScale.y, 0);
+        points[3] = new Vector3(transform.position.x + 0.71f * transform.localScale.x, transform.position.y + 0.75f * transform.localScale.y, 0);
+
     }
+
     void accelerationPoint()
     {
-        vitesseX += accelerationX * Time.fixedDeltaTime;
-        vitesseY += accelerationY * Time.fixedDeltaTime;
-        Vector3 forceCalcul = new Vector3((float)vitesseX, (float)vitesseY, 0);
-        this.transform.position += forceCalcul * Time.fixedDeltaTime;
+        flame.SetActive(false);
+
+        //Changer la position
+        transform.position += vitesse * Time.fixedDeltaTime;
+        
+        //Change la vitesse
+        vitesse += acceleration * Time.fixedDeltaTime;
+
+        //Initialiser le vecteur Force
+        force = Vector3.zero;
+
         if (Input.GetKey(KeyCode.Space))
         {
-            force.y += 90;
+            flame.SetActive(true);
+            force.y += 30 * masse;
             force = transform.TransformDirection(force);
         }
-        force.y += (float)-9.32;
-        force = force.normalized;
-        force *= 3;
-        accelerationX = force.x ;
-        accelerationY = force.y ;
+        //Gravité
+        //force.y -= (9.81f * masse);
+        //friction
+        force += vitesse * (-friction);
+        //Changer l'acceleration
+        acceleration = force / masse;
         
     }
     void rotation()
     {
         float angle = 0;
         if (Input.GetKey(KeyCode.A))
-            angle = -100;
+            angle = -vitesseRotation;
         else if (Input.GetKey(KeyCode.D))
-            angle = 100;
-            transform.localEulerAngles += new Vector3(0, 0, angle * Time.fixedDeltaTime);
+            angle = vitesseRotation;
+        transform.localEulerAngles += new Vector3(0, 0, angle * Time.fixedDeltaTime);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Ligne jaune autour des murs, indique les points de collision. 
+        Gizmos.color = new Color(255, 255, 0, 1F);
+        Gizmos.DrawLine(points[0], points[1]);
+        Gizmos.DrawLine(points[1], points[2]);
+        Gizmos.DrawLine(points[2], points[3]);
+        Gizmos.DrawLine(points[3], points[0]);
+    }
+    public void die()
+    {
+        isAlive = false;
+        GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Explosion"), transform.parent);
+        explosion.transform.position = transform.position;
+        gameObject.SetActive(false);
     }
     public void Reset()
     {
