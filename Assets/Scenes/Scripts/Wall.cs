@@ -55,7 +55,7 @@ public class Wall : MonoBehaviour, IManager
         {
             if (PlayerManager.Instance.player.isAlive && checkCollision(point) )
             {
-                PlayerManager.Instance.player.die();
+                PlayerManager.Instance.player.Dead();
             }
         }
     }

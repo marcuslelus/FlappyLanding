@@ -7,7 +7,7 @@ public class GameFlow : IManager
     #region singleton
     private static GameFlow instance;
     private GameFlow() { }
-    PlayerManager playerManager;
+    
     public static GameFlow Instance
     {
         get
@@ -21,6 +21,7 @@ public class GameFlow : IManager
     }
     #endregion
     public bool isStart = false;
+    PlayerManager playerManager;
     public void FirstInitialization()
     {
         PlayerManager.Instance.FirstInitialization();

@@ -55,12 +55,31 @@ public class Player : MonoBehaviour
         {
             isAlive = false;
         }
+        if (isAlive && transform.localPosition.y > 50)
+        {
+            Win();
+        }
         if (!isAlive)
         {
-            die();
+            Dead();
         }
     }
+    public void Dead()
+    {
+        GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Explosion"), transform.parent);
+        explosion.transform.position = transform.position;
+        isAlive = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        GuiManager.Instance.StartMenu();
+        //gameObject.SetActive(false);
 
+    }
+    public void Win()
+    {
+        isAlive = false;
+        //GetComponent<SpriteRenderer>().enabled = false;
+        GuiManager.Instance.StartMenuWin();
+    }
     public void SecondInitialization()
     {
         points = new Vector3[4];
@@ -124,5 +143,14 @@ public class Player : MonoBehaviour
         GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Explosion"), transform.parent);
         explosion.transform.position = transform.position;
         gameObject.SetActive(false);
+    }
+    public void Reset()
+    {
+        transform.localEulerAngles = Vector3.zero;
+        transform.localPosition = Vector3.zero;
+        acceleration = Vector3.zero;
+        vitesse = Vector3.zero;
+        force = Vector3.zero;
+        GetComponent<SpriteRenderer>().enabled = true;
     }
 }
