@@ -29,6 +29,10 @@ public class WallManager : IManager
         {
             walls.Add(wall.GetComponent<Wall>());
         }
+        foreach (Wall wall in walls)
+        {
+            wall.FirstInitialization();
+        }
     }
 
     public void PhysicsRefresh()

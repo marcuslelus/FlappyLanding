@@ -24,6 +24,7 @@ public class GameFlow : IManager
     public void FirstInitialization()
     {
         PlayerManager.Instance.FirstInitialization();
+        WallManager.Instance.FirstInitialization();
         GuiManager.Instance.FirstInitialization();
     }
     //like start func
@@ -43,6 +44,7 @@ public class GameFlow : IManager
         if (isStart)
         {
             PlayerManager.Instance.PhysicsRefresh();
+            WallManager.Instance.PhysicsRefresh();
         }
     }
 }
