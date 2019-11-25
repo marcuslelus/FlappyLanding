@@ -40,13 +40,19 @@ public class Player : MonoBehaviour
     {
         if(transform.position.x >= 18f || transform.position.x <= -18f || transform.localPosition.y < -2f)
         {
-            GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Explosion"), transform.parent);
-            explosion.transform.position = transform.position;
-            isAlive = false;
-            gameObject.SetActive(false);
+            Dead();
         }
     }
+    public void Dead()
+    {
+        GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Explosion"), transform.parent);
+        explosion.transform.position = transform.position;
+        isAlive = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        GuiManager.Instance.StartMenu();
+        //gameObject.SetActive(false);
 
+    }
     public void SecondInitialization()
     {
         throw new System.NotImplementedException();
@@ -78,4 +84,15 @@ public class Player : MonoBehaviour
             angle = 100;
             transform.localEulerAngles += new Vector3(0, 0, angle * Time.fixedDeltaTime);
     }
+    public void Reset()
+    {
+        transform.localEulerAngles = Vector3.zero;
+        transform.localPosition = Vector3.zero;
+        accelerationX = 0;
+        accelerationY = 0;
+        vitesseX = 0;
+        vitesseY = 0;
+        force = Vector3.zero;
+
+}
 }
